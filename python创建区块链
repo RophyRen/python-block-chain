@@ -1,6 +1,6 @@
-用Python从零开始创建区块链
+用Python创建区块链步骤
 
-本文是博客：用Python从零开始创建区块链 的源码. 翻译自Building a Blockchain
+用Python从零开始创建区块链源码. 翻译摘取自Building a Blockchain
 
 安装 Python 3.6+ is installed.
 安装 pipenv.
