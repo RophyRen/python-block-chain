@@ -1,0 +1,98 @@
+使用Python Flask框架（任若飞Eric 2018.04.03）
+方便将网络请求映射到 Python函数。
+
+我们将创建三个接口：
+
+/transactions/new 创建一个交易并添加到区块
+/mine 告诉服务器去挖掘新的区块
+/chain 返回整个区块链
+
+创建节点
+“Flask服务器”将扮演区块链网络中的一个节点。
+首先添加一些框架代码：
+
+import hashlib
+import json
+from textwrap import dedent
+from time import time
+from uuid import uuid4
+
+from flask import Flask
+
+
+class Blockchain(object):
+    ...
+
+
+# Instantiate our Node
+app = Flask(__name__)
+
+# Generate a globally unique address for this node
+node_identifier = str(uuid4()).replace('-', '')
+
+# Instantiate the Blockchain
+blockchain = Blockchain()
+
+
+@app.route('/mine', methods=['GET'])
+def mine():
+    return "We'll mine a new Block"
+  
+@app.route('/transactions/new', methods=['POST'])
+def new_transaction():
+    return "We'll add a new transaction"
+
+@app.route('/chain', methods=['GET'])
+def full_chain():
+    response = {
+        'chain': blockchain.chain,
+        'length': len(blockchain.chain),
+    }
+    return jsonify(response), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+#简单的说明一下以上代码：
+第15行: 创建一个节点.
+第18行: 为节点创建一个随机的名字.
+第21行: 实例Blockchain类.
+第24–26行: 创建/mine GET接口。
+第28–30行: 创建/transactions/new POST接口,可以给接口发送交易数据.
+第32–38行: 创建 /chain 接口, 返回整个区块链。
+第40–41行: 服务运行在端口5000上.
+
+#接下来是 “发送交易”将交易数据结构发送到节点
+{
+ "sender": "my address",
+ "recipient": "someone else's address",
+ "amount": 5
+}
+
+#基于接口来添加交易
+import hashlib
+import json
+from textwrap import dedent
+from time import time
+from uuid import uuid4
+
+from flask import Flask, jsonify, request
+
+...
+
+@app.route('/transactions/new', methods=['POST'])
+def new_transaction():
+    values = request.get_json()
+
+    # Check that the required fields are in the POST'ed data
+    required = ['sender', 'recipient', 'amount']
+    if not all(k in values for k in required):
+        return 'Missing values', 400
+
+    # Create a new Transaction
+    index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
+
+    response = {'message': f'Transaction will be added to Block {index}'}
+    return jsonify(response), 201 
+
+
