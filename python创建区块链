@@ -1,0 +1,28 @@
+用Python从零开始创建区块链
+
+本文是博客：用Python从零开始创建区块链 的源码. 翻译自Building a Blockchain
+
+安装 Python 3.6+ is installed.
+安装 pipenv.
+$ pip install pipenv 
+创建virtual env.
+$ pipenv --python=python3.6
+安装依赖.
+$ pipenv install 
+运行节点:
+$ pipenv run python blockchain.py
+$ pipenv run python blockchain.py -p 5001
+$ pipenv run python blockchain.py --port 5002
+Docker运行
+
+另一种方式是使用Docker运行：
+
+克隆库
+构建docker容器
+$ docker build -t blockchain .
+运行
+$ docker run --rm -p 80:5000 blockchain
+添加多个节点:
+$ docker run --rm -p 81:5000 blockchain
+$ docker run --rm -p 82:5000 blockchain
+$ docker run --rm -p 83:5000 blockchain
