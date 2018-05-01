@@ -1,0 +1,25 @@
+Blockchain类（任若飞Eric 2018.04.06）
+详细解释：首先创建一个Blockchain类，在构造函数中创建了两个列表，一个用于储存区块链，一个用于储存交易。
+
+class Blockchain(object):
+    def __init__(self):
+        self.chain = []
+        self.current_transactions = []
+        
+    def new_block(self):
+        # Creates a new Block and adds it to the chain
+        pass
+    
+    def new_transaction(self):
+        # Adds a new transaction to the list of transactions
+        pass
+    
+    @staticmethod
+    def hash(block):
+        # Hashes a Block
+        pass
+
+    @property
+    def last_block(self):
+        # Returns the last Block in the chain
+        pass
